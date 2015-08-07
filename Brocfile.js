@@ -8,7 +8,8 @@ var vendorJs = concat('bower_components', {
     'jquery/dist/jquery.min.js',
     'handlebars/handlebars.runtime.min.js',
     'underscore/underscore-min.js',
-    'backbone/backbone-min.js'
+    'backbone/backbone-min.js',
+    'marionette/lib/backbone.marionette.js'
   ],
   outputFile: 'vendor.js'
 });
@@ -21,8 +22,12 @@ var assetsWithTemplates = handlebars('assets', {
 var appJs = concat(assetsWithTemplates, {
   inputFiles: [
     'js/setup.js',
-    'templates/**/*.js'
+    'templates/**/*.js',
+    'js/models/note.js',
+    'js/views/notes/form.js',
+
     /* Your app files here */
+    'js/index.js'
   ],
   outputFile: 'app.js'
 });
