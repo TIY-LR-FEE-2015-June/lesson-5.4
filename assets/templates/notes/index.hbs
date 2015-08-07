@@ -1,0 +1,7 @@
+<ul>
+    {{#each this as |note|}}
+        <li>
+            <a href="#{{note._id}}/edit">{{note.title}}</a>
+        </li>
+    {{/each}}
+</ul>

@@ -1,10 +1,3 @@
-var notes = new NoteBook();
+var router = new AppRouter();
 
-notes.fetch().then(function() {
-  form = new NoteForm({
-    el: '#target',
-    model: notes.first()
-  });
-
-  form.render();
-});
+Backbone.history.start();

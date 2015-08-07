@@ -9,8 +9,11 @@ var NoteForm = Mn.ItemView.extend({
 
     var title = this.$('#title').val();
     var body = this.$('#body').val();
+    var _this = this;
 
     this.model.set({title: title, body: body});
-    this.model.save();
+    this.model.save().then(function() {
+      router.navigate('', {trigger: true});
+    });
   }
 });
