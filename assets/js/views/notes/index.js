@@ -14,4 +14,12 @@ var NoteIndexItem = Marionette.ItemView.extend({
 var NoteIndex = Marionette.CollectionView.extend({
   tagName: 'ul',
   childView: NoteIndexItem,
+
+  hide: function() {
+    this.$el.hide();
+  },
+
+  show: function() {
+    this.$el.show();
+  },
 });

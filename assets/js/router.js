@@ -8,6 +8,8 @@ var AppRouter = Backbone.Router.extend({
         main: '#target',
       },
     });
+
+    this.setupSidebar();
   },
 
   currentView: null,
@@ -25,8 +27,7 @@ var AppRouter = Backbone.Router.extend({
     });
 
     this.renderView(view);
-    this.renderSidebar();
-
+    this.sidebarView.hide();
     this.collection.fetch();
   },
 
@@ -35,17 +36,13 @@ var AppRouter = Backbone.Router.extend({
       model: this.collection.add({}),
     });
 
+    this.sidebarView.show();
     this.renderView(view);
-    this.renderSidebar();
   },
 
   edit: function(id) {
     var _this = this;
-    var sidebar = new NoteIndex({
-      collection: this.collection,
-    });
-
-    this.renderSidebar(sidebar);
+    this.sidebarView.show();
 
     this.collection.fetch().then(function() {
       var view =  new NoteForm({
@@ -54,6 +51,14 @@ var AppRouter = Backbone.Router.extend({
 
       _this.renderView(view);
     });
+  },
+
+  setupSidebar: function() {
+    var sidebar = new NoteIndex({
+      collection: this.collection,
+    });
+
+    this.renderSidebar(sidebar);
   },
 
   renderView: function(view) {
