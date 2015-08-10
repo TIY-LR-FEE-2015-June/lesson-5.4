@@ -1,7 +1,7 @@
 var NoteForm = Mn.ItemView.extend({
   template: AppTemplates['notes/form'],
   events: {
-    'submit form': 'createNote'
+    'submit form': 'createNote',
   },
 
   createNote: function(ev) {
@@ -15,5 +15,5 @@ var NoteForm = Mn.ItemView.extend({
     this.model.save().then(function() {
       router.navigate('', {trigger: true});
     });
-  }
+  },
 });

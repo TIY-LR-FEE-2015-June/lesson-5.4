@@ -1,10 +1,17 @@
-var NoteIndex = Backbone.View.extend({
-  template: AppTemplates['notes/index'],
+var NoteIndexItem = Marionette.ItemView.extend({
+  tagName: 'li',
+  template: AppTemplates['notes/index-item'],
 
-  render: function() {
-    var html = this.template(this.collection.toJSON());
-    this.$el.html(html);
+  events: {
+    'click a': 'sayHey',
+  },
 
-    return this;
-  }
+  sayHey: function(ev) {
+    alert('hey');
+  },
+});
+
+var NoteIndex = Marionette.CollectionView.extend({
+  tagName: 'ul',
+  childView: NoteIndexItem,
 });

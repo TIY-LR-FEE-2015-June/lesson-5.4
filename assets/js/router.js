@@ -1,6 +1,13 @@
 var AppRouter = Backbone.Router.extend({
   initialize: function() {
     this.collection = new NoteBook();
+
+    this.regions = new Marionette.RegionManager({
+      regions: {
+        sidebar: '#sidebar',
+        main: '#target',
+      },
+    });
   },
 
   currentView: null,
@@ -8,26 +15,24 @@ var AppRouter = Backbone.Router.extend({
 
   routes: {
     '': 'index',
-    'new': 'create',
-    ':id/edit': 'edit'
+    new: 'create',
+    ':id/edit': 'edit',
   },
 
   index: function() {
-    var _this = this;
-    this.collection.fetch().then(function() {
-      /* this is a Backbone Collection */
-      var view = new NoteIndex({
-        collection: _this.collection
-      });
-
-      _this.renderView(view);
-      _this.renderSidebar();
+    var view = new NoteIndex({
+      collection: this.collection,
     });
+
+    this.renderView(view);
+    this.renderSidebar();
+
+    this.collection.fetch();
   },
 
   create: function() {
     var view = new NoteForm({
-      model: this.collection.add({})
+      model: this.collection.add({}),
     });
 
     this.renderView(view);
@@ -36,41 +41,32 @@ var AppRouter = Backbone.Router.extend({
 
   edit: function(id) {
     var _this = this;
+    var sidebar = new NoteIndex({
+      collection: this.collection,
+    });
+
+    this.renderSidebar(sidebar);
+
     this.collection.fetch().then(function() {
       var view =  new NoteForm({
-        model: _this.collection.get(id)
-      });
-
-      var sidebar = new NoteIndex({
-        collection: _this.collection
+        model: _this.collection.get(id),
       });
 
       _this.renderView(view);
-      _this.renderSidebar(sidebar);
     });
   },
 
   renderView: function(view) {
-    if (this.currentView && this.currentView.remove) {
-      this.currentView.remove();
-    }
-
     this.currentView = view;
-    this.currentView.render();
-    $('#target').html(this.currentView.el);
+
+    this.regions.get('main').show(this.currentView);
   },
 
   renderSidebar: function(view) {
-    if (this.sidebarView && this.sidebarView.remove) {
-      this.sidebarView.remove();
-    }
+    this.sidebarView = view;
 
-    if (view) {
-      this.sidebarView = view;
-      this.sidebarView.render();
-      $('#sidebar').html(this.sidebarView.el);
-    }
-  }
+    this.regions.get('sidebar').show(this.sidebarView);
+  },
 });
 
 this.hello = 'world';
